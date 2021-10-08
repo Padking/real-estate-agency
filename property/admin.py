@@ -15,7 +15,7 @@ class FlatAdmin(admin.ModelAdmin):
     list_filter = ('new_building', 'rooms_number', 'has_balcony', )
     raw_id_fields = ('liked_by', )
     readonly_fields = ('created_at', )
-    search_fields = ('town', 'address', )
+    search_fields = ('town', 'address', 'owner_pure_phone', )
 
 
 @admin.register(Claim)
