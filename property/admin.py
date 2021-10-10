@@ -2,7 +2,8 @@ from django.contrib import admin
 
 from .models import (
     Claim,
-    Flat
+    Flat,
+    Owner
 )
 
 
@@ -22,3 +23,9 @@ class FlatAdmin(admin.ModelAdmin):
 @admin.register(Claim)
 class ClaimAdmin(admin.ModelAdmin):
     raw_id_fields = ('flat', )
+
+
+@admin.register(Owner)
+class OwnerAdmin(admin.ModelAdmin):
+    raw_id_fields = ('flats', )
+    search_fields = ('owner', )
