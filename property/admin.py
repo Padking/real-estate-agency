@@ -7,8 +7,22 @@ from .models import (
 )
 
 
+@admin.register(Claim)
+class ClaimAdmin(admin.ModelAdmin):
+    raw_id_fields = ('flat', )
+
+
+class OwnerFlatInline(admin.TabularInline):
+    model = Owner.flats.through
+    raw_id_fields = ('owner', 'flat', )
+
+
 @admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
+    inlines = [
+        OwnerFlatInline
+    ]
+
     list_display = ('address', 'price', 'new_building',
                     'construction_year', 'town', )
 
@@ -19,12 +33,13 @@ class FlatAdmin(admin.ModelAdmin):
     search_fields = ('town', 'address', )
 
 
-@admin.register(Claim)
-class ClaimAdmin(admin.ModelAdmin):
-    raw_id_fields = ('flat', )
-
-
 @admin.register(Owner)
 class OwnerAdmin(admin.ModelAdmin):
+    inlines = [
+        OwnerFlatInline
+    ]
+
+    exclude = ('flats', )
+
     raw_id_fields = ('flats', )
     search_fields = ('owner', 'owner_pure_phone', )
