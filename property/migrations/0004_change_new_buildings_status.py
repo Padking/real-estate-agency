@@ -9,10 +9,7 @@ def update_new_buildings_status(apps, schema_editor):
 
     flats = Flat.objects.using(db_alias).all()
     for flat in flats:
-        if flat.construction_year >= 2015:
-            flat.new_building = True
-        else:
-            flat.new_building = False
+        flat.new_building = flat.construction_year >= 2015
         flat.save()
 
 
