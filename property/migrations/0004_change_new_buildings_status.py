@@ -5,9 +5,8 @@ from django.db import migrations
 
 def update_new_buildings_status(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    db_alias = schema_editor.connection.alias
 
-    flats = Flat.objects.using(db_alias).all()
+    flats = Flat.objects.all()
     for flat in flats:
         flat.new_building = flat.construction_year >= 2015
         flat.save()
@@ -15,9 +14,8 @@ def update_new_buildings_status(apps, schema_editor):
 
 def set_new_buildings_to_null(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    db_alias = schema_editor.connection.alias
 
-    Flat.objects.using(db_alias).all().update(new_building=None)
+    Flat.objects.all().update(new_building=None)
 
 
 class Migration(migrations.Migration):

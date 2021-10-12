@@ -6,12 +6,11 @@ from django.db import migrations
 def set_relation(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     Owner = apps.get_model('property', 'Owner')
-    db_alias = schema_editor.connection.alias
 
-    flats = Flat.objects.using(db_alias).all()
+    flats = Flat.objects.all()
     for flat in flats:
         owner, _ = (
-            Owner.objects.using(db_alias)
+            Owner.objects
             .get_or_create(owner=flat.owner,
                            owners_phonenumber=flat.owners_phonenumber,
                            defaults={
@@ -23,9 +22,8 @@ def set_relation(apps, schema_editor):
 
 def clear_relation(apps, schema_editor):
     Owner = apps.get_model('property', 'Owner')
-    db_alias = schema_editor.connection.alias
 
-    owners = Owner.objects.using(db_alias).all()
+    owners = Owner.objects.all()
     for owner in owners:
         owner.flats.clear()
 
